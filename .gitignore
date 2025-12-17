@@ -1,0 +1,63 @@
+# IDE and Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Operating System
+Thumbs.db
+.AppleDouble
+.LSOverride
+*.log
+
+# Node modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+env/
+venv/
+
+# Postman
+.postmanrc.json
+postman_environment.json
+postman_collection.json
+
+# Test Results
+coverage/
+.nyc_output/
+*.lcov
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+*.tmp
+*.temp
+
+# Build directories
+dist/
+build/
+
+# Sensitive Data
+secrets/
+keys/
+*.pem
+*.key
+
+# API Testing
+results/
+reports/
+logs/
+*.xlsx
+*.xls
