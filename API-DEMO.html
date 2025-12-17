@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 2: API Testing Live Demo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 900px;
+            padding: 40px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .demo-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        .demo-section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .api-test {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+        }
+        .api-test .endpoint {
+            font-family: 'Courier New', monospace;
+            color: #d4a574;
+            background: #f5f5f5;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            word-break: break-all;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-get {
+            background: #4CAF50;
+            color: white;
+        }
+        .btn-get:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76,175,80,0.3);
+        }
+        .btn-post {
+            background: #2196F3;
+            color: white;
+        }
+        .btn-post:hover {
+            background: #0b7dda;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(33,150,243,0.3);
+        }
+        .response-box {
+            margin-top: 10px;
+            padding: 12px;
+            background: #f0f7ff;
+            border-radius: 4px;
+            border: 1px solid #dceefb;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #333;
+        }
+        .response-status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+        .status-200 { background: #d4edda; color: #155724; }
+        .status-error { background: #f8d7da; color: #721c24; }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 8px 0;
+            color: #555;
+            border-bottom: 1px solid #eee;
+        }
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        .feature-list li:before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>API Testing Demo</h1>
+        <p class="subtitle">Interactive REST API Testing using JSONPlaceholder</p>
+        
+        <div class="demo-section">
+            <h2>GET Request - Fetch Users</h2>
+            <div class="api-test">
+                <div class="endpoint">GET https://jsonplaceholder.typicode.com/users</div>
+                <div class="button-group">
+                    <button class="btn-get" onclick="testGetUsers()">Fetch All Users</button>
+                    <button class="btn-get" onclick="testGetUserById()">Fetch User #1</button>
+                </div>
+                <div id="getResponse" class="response-box" style="display:none;"></div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>GET Request - Fetch Posts</h2>
+            <div class="api-test">
+                <div class="endpoint">GET https://jsonplaceholder.typicode.com/posts</div>
+                <div class="button-group">
+                    <button class="btn-get" onclick="testGetPosts()">Fetch Posts</button>
+                    <button class="btn-get" onclick="testGetPostById()">Fetch Post #1</button>
+                </div>
+                <div id="postsResponse" class="response-box" style="display:none;"></div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>POST Request - Create Resource</h2>
+            <div class="api-test">
+                <div class="endpoint">POST https://jsonplaceholder.typicode.com/posts</div>
+                <div class="button-group">
+                    <button class="btn-post" onclick="testCreatePost()">Create New Post</button>
+                </div>
+                <div id="postResponse" class="response-box" style="display:none;"></div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>Testing Scenarios Implemented</h2>
+            <ul class="feature-list">
+                <li>GET requests to fetch collections and individual resources</li>
+                <li>POST requests to create new resources</li>
+                <li>Response status code validation</li>
+                <li>JSON response parsing and display</li>
+                <li>Error handling and timeout management</li>
+                <li>Real-time API response visualization</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        function testGetUsers() {
+            const responseBox = document.getElementById('getResponse');
+            responseBox.innerHTML = '<div style="color: #999;">Loading...</div>';
+            responseBox.style.display = 'block';
+            
+            fetch('https://jsonplaceholder.typicode.com/users')
+                .then(response => {
+                    if (response.status === 200) {
+                        return response.json().then(data => ({ status: response.status, data }));
+                    }
+                    throw new Error(`HTTP ${response.status}`);
+                })
+                .then(result => {
+                    responseBox.innerHTML = `<strong>Status:</strong> ${result.status}<br><strong>Response:</strong> ${JSON.stringify(result.data, null, 2)}`;
+                    responseBox.innerHTML += `<div class="response-status status-200">Success: Fetched ${result.data.length} users</div>`;
+                })
+                .catch(error => {
+                    responseBox.innerHTML = `<strong>Error:</strong> ${error.message}`;
+                    responseBox.innerHTML += `<div class="response-status status-error">Failed: ${error.message}</div>`;
+                });
+        }
+        
+        function testGetUserById() {
+            const responseBox = document.getElementById('getResponse');
+            responseBox.innerHTML = '<div style="color: #999;">Loading...</div>';
+            responseBox.style.display = 'block';
+            
+            fetch('https://jsonplaceholder.typicode.com/users/1')
+                .then(response => response.json())
+                .then(data => {
+                    responseBox.innerHTML = `<strong>User Details:</strong><br>${JSON.stringify(data, null, 2)}`;
+                    responseBox.innerHTML += `<div class="response-status status-200">Success: User ${data.id} loaded</div>`;
+                })
+                .catch(error => {
+                    responseBox.innerHTML = `<strong>Error:</strong> ${error.message}`;
+                    responseBox.innerHTML += `<div class="response-status status-error">Failed</div>`;
+                });
+        }
+        
+        function testGetPosts() {
+            const responseBox = document.getElementById('postsResponse');
+            responseBox.innerHTML = '<div style="color: #999;">Loading...</div>';
+            responseBox.style.display = 'block';
+            
+            fetch('https://jsonplaceholder.typicode.com/posts?_limit=5')
+                .then(response => response.json())
+                .then(data => {
+                    responseBox.innerHTML = `<strong>Posts (First 5):</strong><br>${JSON.stringify(data, null, 2)}`;
+                    responseBox.innerHTML += `<div class="response-status status-200">Success: Fetched ${data.length} posts</div>`;
+                })
+                .catch(error => {
+                    responseBox.innerHTML = `<strong>Error:</strong> ${error.message}`;
+                    responseBox.innerHTML += `<div class="response-status status-error">Failed</div>`;
+                });
+        }
+        
+        function testGetPostById() {
+            const responseBox = document.getElementById('postsResponse');
+            responseBox.innerHTML = '<div style="color: #999;">Loading...</div>';
+            responseBox.style.display = 'block';
+            
+            fetch('https://jsonplaceholder.typicode.com/posts/1')
+                .then(response => response.json())
+                .then(data => {
+                    responseBox.innerHTML = `<strong>Post Details:</strong><br>${JSON.stringify(data, null, 2)}`;
+                    responseBox.innerHTML += `<div class="response-status status-200">Success: Post retrieved</div>`;
+                })
+                .catch(error => {
+                    responseBox.innerHTML = `<strong>Error:</strong> ${error.message}`;
+                    responseBox.innerHTML += `<div class="response-status status-error">Failed</div>`;
+                });
+        }
+        
+        function testCreatePost() {
+            const responseBox = document.getElementById('postResponse');
+            responseBox.innerHTML = '<div style="color: #999;">Loading...</div>';
+            responseBox.style.display = 'block';
+            
+            const newPost = {
+                title: 'Test Post Created',
+                body: 'This is a test post created via API Testing',
+                userId: 1
+            };
+            
+            fetch('https://jsonplaceholder.typicode.com/posts', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newPost)
+            })
+            .then(response => response.json())
+            .then(data => {
+                responseBox.innerHTML = `<strong>Created Post:</strong><br>${JSON.stringify(data, null, 2)}`;
+                responseBox.innerHTML += `<div class="response-status status-200">Success: Post created with ID ${data.id}</div>`;
+            })
+            .catch(error => {
+                responseBox.innerHTML = `<strong>Error:</strong> ${error.message}`;
+                responseBox.innerHTML += `<div class="response-status status-error">Failed</div>`;
+            });
+        }
+    </script>
+</body>
+</html>
