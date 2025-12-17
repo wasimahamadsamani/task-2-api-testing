@@ -1,0 +1,75 @@
+{
+  "info": {
+    "name": "CODTECH Task 2 - API Testing Collection",
+    "description": "Complete Postman collection for API testing with authentication and data retrieval",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication Tests",
+      "item": [
+        {
+          "name": "Login - Valid Credentials",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"username\": \"testuser@example.com\", \"password\": \"Test@123456\"}"},
+            "url": "https://api.example.com/auth/login"
+          },
+          "response": []
+        },
+        {
+          "name": "Login - Invalid Credentials",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"username\": \"testuser@example.com\", \"password\": \"wrongpassword\"}"},
+            "url": "https://api.example.com/auth/login"
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}],
+            "url": "https://api.example.com/auth/refresh"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Data Retrieval Tests",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}],
+            "url": "https://api.example.com/users"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}],
+            "url": "https://api.example.com/users/{{userId}}"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Profile",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}],
+            "url": "https://api.example.com/profile"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
